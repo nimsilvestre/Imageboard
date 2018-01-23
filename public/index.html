@@ -4,7 +4,19 @@
     <title></title>
 </head>
 <body>
-    <script src="/js/vue.js"></script>
-    <script src="/js/axios.min.js"></script>
+    <main>
+        <p>Upload the images here:</p>
+        <form action="">
+            <input v-model="formStuff.title" type="text" name="title" value="title" placeholder="title">
+            <input v-model="formStuff.description" type="text" name="description" value="description" placeholder="description">
+            <input v-model="formStuff.username" type="text" name="username" value="username" placeholder="username">
+            <input v-on:change="chooseFiles" type="file" name="file" value="">
+            <button type="button" @click="upload">Submit</button>
+        </form>
+    </main>
+
+    <script src"/js/script.js"></script>
+    <script src="/public/js/axios.min.js"></script>
+    <script src="/public/js/vue.js"></script>
 </body>
 </html>
