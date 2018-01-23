@@ -1,13 +1,17 @@
+//MIDDLEWARES
+console.log('LISTENING INDEX.JS');
+
 const express = require("express");
 const app = express();
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 const path = require("path");
 const db = require('./db.js');
+const s3 = require('./s3.js');
+
 
 //STATIC
-app.use("/public", express.static(__dirname + "/public"));
-app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use(express.static(__dirname + "/public"));
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
@@ -33,32 +37,23 @@ const uploader = multer({
 });
 
 //ROUTER
-
-app.post('/upload', uploader.single('file'), function(req, res) {
-    // If nothing went wrong the file is already in the uploads directory
+app.post('/uploads', uploader.single('file'), (req, res) => {
     if (req.file) {
-        console.log('it worked: App post upload');
-        res.json({
-            success: true
-        });
+        s3.upload(req.file).then(() => {
+            db.showImage(req.file.filename, req.body.username, req.body.title, req.body.description)
+            console.log('image uploaded! sucessfully to AWS!')
+            res.redirect('/#/');
+        }).catch((err) => { console.log('ERR IN UPLOAD TO AWS', err) })
     } else {
+        console.log('trying to upload req.file FAIL', req.file)
         res.json({
             success: false
         });
     }
 });
 
+
 //ROUTER
-
-app.get('/images', (req, res) => {
-    return db.showImages().then((results) => {
-        res.json(results); // "res.json is deprecated in a favour of res.status().json()"
-    }).catch((err) => {
-        console.log('ERR WITH GETIMAGES', err)
-    })
-});
-
-
 
 
 //SERVER
