@@ -17,7 +17,6 @@ const client = knox.createClient({
 });
 
 module.exports.upload = function(file) {
-    console.log('Error in the module upload');
     return new Promise(function(resolve, reject) {
         const s3Request = client.put(file.filename, {
             'Content-Type': file.mimetype,
