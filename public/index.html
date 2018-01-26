@@ -7,45 +7,51 @@
 </head>
 
 <body>
-    <div id="wrapper">
-
+    <main>
+        <!-- Header -->
         <div class="header">
-            <header>HEADER</header>
+            <header>
+                <p>POGO</p>
+            </header>
         </div>
-
-        <div class="titleAside">
-            PAGE TITLE
+        <!-- Upload Images -->
+        <div class="formUpload">
+            <form action="" class="formAside">
+                <input v-model="formStuff.title" type="text" name="title" value="title" placeholder="title">
+                <input v-model="formStuff.description" type="text" name="description" value="description" placeholder="description">
+                <input v-model="formStuff.username" type="text" name="username" value="username" placeholder="username">
+                <input v-on:change="chooseFiles" type="file" name="file" value="">
+                <button type="button" @click="upload">Submit</button>
+            </form>
         </div>
-
-        <main>
-            <div class="asideForm">
-                <form action="" class="formAside">
-                    <input v-model="formStuff.title" type="text" name="title" value="title" placeholder="title">
-                    <input v-model="formStuff.description" type="text" name="description" value="description" placeholder="description">
-                    <input v-model="formStuff.username" type="text" name="username" value="username" placeholder="username">
-                    <input v-on:change="chooseFiles" type="file" name="file" value="">
-                    <button type="button" @click="upload">Submit</button>
-                </form>
+        <!-- Photo Grid -->
+        <div class="row">
+            <div class="column" v-for="image in images">
+                <p>{{ image.title }}</p>
+                <img class="imgList" v-bind:src="'https://s3.amazonaws.com/imageboardnash/' + image.image"  @click="curImg=image.id">
             </div>
-            <div class="mainContent">
-                <ul>
-                    <li v-for="image in images">
-                        <p>{{ image.title }}</p>
-                        <img v-bind:src="'https://s3.amazonaws.com/imageboardnash/' + image.image" @click="curImg=image.id">
-                </ul>
-            </div>
-
-            <big-image v-if="curImg" v-bind:id="curImg" inline-template>
-                <div>
-                    {{ title }}
-                    <img v-bind:src="image" alt="">
-                </div>
-            </big-image>
-        </main>
-        <div class="footer">
-            <footer class="mainFooter">FOOTER</footer>
         </div>
+        <big-image v-if="curImg" v-bind:id="curImg"> </big-image>
+    </main>
+    <!-- Modal script -->
+    <script type="x-template" id="myTemplate" class="modal">
+        <div id="modal-content">
+            <div>
+            <img v-bind:src="'https://s3.amazonaws.com/imageboardnash/' + image.image">
+            </div>
+            <span class="close" v-on:click="closeModal">&times</span>
+                <h1>{{title}}</h1>
+                <h2>{{description}}</h2>
+                <h3>Created by: {{username}}</h3>
+                <h4>On: {{created_at}}</h4>
+        </div>
+    </script>
+    <!-- Footer -->
+    <div class="footer">
+        <footer class="mainFooter">FOOTER</footer>
     </div>
+    </div>
+
     <script src="/js/axios.min.js"></script>
     <script src="/js/vue.js"></script>
     <script src="/js/script.js"></script>

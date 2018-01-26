@@ -12,7 +12,7 @@ module.exports.uploadImages = function(image, username, title, description) {
         .query(query, params)
         .then(results => {
             //DB query
-            console.log("Image upload working");
+            console.log("Image upload working", results);
             return results.rows; //returning back image upload stuff!
         })
         .catch(err => {
@@ -42,7 +42,5 @@ module.exports.getSingleImage = function(id) {
         FROM images
         WHERE id = $1`;
     const params = [id];
-    return db
-        .query(query, params)
-
+    return db.query(query, params);
 };

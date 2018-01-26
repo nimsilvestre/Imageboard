@@ -14,6 +14,9 @@ console.log("LISTENING TO SCRIPT.JS");
                 comments: []
             };
         },
+        //close window here
+        template: "#myTemplate",
+
         mounted: function() {
             var that = this;
             //do somthing here
@@ -21,7 +24,7 @@ console.log("LISTENING TO SCRIPT.JS");
                 that.title = res.data.image.title;
                 that.description = res.data.image.description;
                 that.username = res.data.image.username;
-                that.image = res.data.image.image;
+                that.image = res.data.image;
                 that.created_at = res.data.image.created_at;
             });
         }
@@ -39,6 +42,7 @@ console.log("LISTENING TO SCRIPT.JS");
                 file: null
             }
         },
+
         mounted: function() {
             const that = this;
             axios.get("/all-images").then(result => {
