@@ -14,6 +14,7 @@ console.log("LISTENING TO SCRIPT.JS");
                 comments: []
             };
         },
+
         //close window here
         template: "#myTemplate",
 
@@ -33,6 +34,7 @@ console.log("LISTENING TO SCRIPT.JS");
     var app = new Vue({
         el: "main", //saying that vue has control sobre este elemento = 'el' | irá criar um templante e renderiza-lo automaticamente!
         data: {
+            isNinja: false,
             curImg: null,
             images: [], //Adicionar propriedades a este objecto (Reactive data)
             formStuff: {
@@ -67,6 +69,14 @@ console.log("LISTENING TO SCRIPT.JS");
                 fd.append("username", this.formStuff.username);
 
                 axios.post("/uploads", fd).then(results => {
+                    if (resul.data.sucess == true) {
+                        app.images.unshift({ //check unshift keyword to change orientation of the results
+                            image: result.data.filename,
+                            title: result.data.title,
+                            description: result.data.description,
+                            username: result.data.username
+                        })
+                    }
                     console.log("response from server:", results);
                 });
             }

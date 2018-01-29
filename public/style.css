@@ -10,50 +10,119 @@ body {
 
 .header {
     font-family: impact;
-    font-size: 50px
-
+    font-size: 90px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
 }
+
+footer {
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+    color: #de6151;
+}
+
 .formUpload {
     border: 1px solid grey;
     border-radius: 3px;
-    width: 300px;
+    width: 100%;
     height: 100px;
     display: flex;
+    justify-content: center;
+}
 
+.ninja {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    color: #de6151;
+    padding-bottom: 15px;
 }
 
 .row {
-    display: -ms-flexbox; /* IE10 */
+    display: -ms-flexbox;
+    /* IE10 */
     display: flex;
-    -ms-flex-wrap: wrap; /* IE10 */
+    -ms-flex-wrap: wrap;
+    /* IE10 */
     flex-wrap: wrap;
-    padding: 0 ;
+    padding: 0;
+    justify-content: center;
+}
+
+.imgdesc {
+    padding: 15px;
+    text-align: center;
 }
 
 /* Create four equal columns that sits next to each other */
+
 .column {
-    -ms-flex: 25%; /* IE10 */
+    margin: 5px;
+    border: 1px solid #ccc;
+    width: 180px;
+    -ms-flex: 25%;
+    /* IE10 */
     flex: 25%;
     max-width: 25%;
     padding: 0 4px;
 }
 
 .column img {
-    margin-top: 8px;
-    vertical-align: middle;
-    width:
+    width: 100%;
+    height: auto;
+}
+
+/* Add a hover effect (blue shadow) */
+
+.column:hover {
+    border: 1px solid #777;
 }
 
 #modal-content {
-    height: 80%;
-    width: 80%;
-    background-color: green;
-    position: absolute;
-    top:10%;
-    left:10px;
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: table;
+    transition: opacity 0.3s ease;
+}
+
+.modalWrapper {
+    height: 100%;
+    overflow: auto;
+    background-color: #fefefe;
+    margin: 5%;
+    /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    /* Could be more or less, depending on screen size */
+}
+
+.singleImgContainer {
+    display: -ms-flexbox;
+    /* IE10 */
+    display: flex;
+    -ms-flex-wrap: wrap;
+    /* IE10 */
+    flex-wrap: wrap;
+    padding: 0;
+}
+
+.modalCloseBtn {
+    margin-right: 60px;
+    margin-top: 22px;
+    float: right;
 }
 
 /* Responsive layout - makes a two column-layout instead of four columns */
+
 @media (max-width: 800px) {
     .column {
         -ms-flex: 50%;
@@ -63,6 +132,7 @@ body {
 }
 
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+
 @media (max-width: 600px) {
     .column {
         -ms-flex: 100%;

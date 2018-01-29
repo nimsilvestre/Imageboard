@@ -44,3 +44,21 @@ module.exports.getSingleImage = function(id) {
     const params = [id];
     return db.query(query, params);
 };
+
+
+//*------------------ADD COMMENT------------------*//
+
+module.exports.addComment = function(id, username, comment) {
+    const query = `
+        INSERT INTO comments (image_id, username, comment)
+        VALUES ($1, $2, $3)`
+    const params = [ id, username, comment ]
+    return db.query(query, params).then((results) => {
+        // console.log('RESULTS OF UPLOADCOMMENT results', results)
+        // console.log('RESULTS OF UPLOADCOMMENT results.rows', results.rows)
+        // console.log('RESULTS OF UPLOADCOMMENT results.rows[0]', results.rows[0])
+        return results.rows
+    }).catch((err) => { console.log('ERR WITH UPLOADCOMMENT', err) })
+}
+
+//*------------------SHOW COMMENTS------------------*//

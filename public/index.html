@@ -11,11 +11,12 @@
         <!-- Header -->
         <div class="header">
             <header>
-                <p>POGO</p>
+                <p class="pageLogo">#POGO</p>
             </header>
         </div>
         <!-- Upload Images -->
-        <div class="formUpload">
+        <p @click="isNinja = !isNinja" class="ninja">UPLOAD</p>
+        <div class="formUpload" v-show="isNinja">
             <form action="" class="formAside">
                 <input v-model="formStuff.title" type="text" name="title" value="title" placeholder="title">
                 <input v-model="formStuff.description" type="text" name="description" value="description" placeholder="description">
@@ -27,28 +28,37 @@
         <!-- Photo Grid -->
         <div class="row">
             <div class="column" v-for="image in images">
-                <p>{{ image.title }}</p>
-                <img class="imgList" v-bind:src="'https://s3.amazonaws.com/imageboardnash/' + image.image"  @click="curImg=image.id">
+                <img class="imgList" v-bind:src="'https://s3.amazonaws.com/imageboardnash/' + image.image" @click="curImg=image.id">
+                <div class="imgdesc">
+                    <p>{{ image.title }}</p>
+                </div>
             </div>
         </div>
         <big-image v-if="curImg" v-bind:id="curImg"> </big-image>
     </main>
     <!-- Modal script -->
+    <!-- Comments form -->
     <script type="x-template" id="myTemplate" class="modal">
         <div id="modal-content">
-            <div>
-            <img v-bind:src="'https://s3.amazonaws.com/imageboardnash/' + image.image">
+            <button class="modalCloseBtn" @click="">X</button>
+            <div class="modalWrapper">
+                <div class="singleImgContainer">
+                    <img v-bind:src="'https://s3.amazonaws.com/imageboardnash/' + image.image">
+                </div>
+                <h1>{{title}}</h1><br>
+                <h2>{{description}}</h2><br>
+                <h3>Created by: {{username}}</h3><br>
+                <h4>On: {{created_at}}</h4><br>
+
             </div>
-            <span class="close" v-on:click="closeModal">&times</span>
-                <h1>{{title}}</h1>
-                <h2>{{description}}</h2>
-                <h3>Created by: {{username}}</h3>
-                <h4>On: {{created_at}}</h4>
         </div>
     </script>
+
+
+
     <!-- Footer -->
     <div class="footer">
-        <footer class="mainFooter">FOOTER</footer>
+        <footer class="mainFooter">Copyright &copy; 2018 Natasha Silvestre</footer>
     </div>
     </div>
 

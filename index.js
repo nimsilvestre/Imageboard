@@ -9,6 +9,12 @@ const path = require("path");
 const db = require("./db.js");
 const s3 = require("./s3.js");
 const bodyParser = require("body-parser");
+app.use(
+    bodyParser.urlencoded({
+        extended: false
+    })
+);
+app.use(bodyParser.json());
 
 //STATIC
 app.use(express.static(__dirname + "/public"));
@@ -41,15 +47,17 @@ const uploader = multer({
 
 app.post("/uploads", uploader.single("file"), (req, res) => {
     if (req.file) {
-        s3
-            .upload(req.file)
+        db.uploadImages(
+            req.file.filename,
+            req.body.username,
+            req.body.title,
+            req.body.description
+        );
+
             .then(() => {
-                db.uploadImages(
-                    req.file.filename,
-                    req.body.username,
-                    req.body.title,
-                    req.body.description
-                );
+                res.json({
+                    success: true
+                });
                 console.log("image has been uploaded to the server");
             })
             .catch(err => {
@@ -80,17 +88,38 @@ app.get("/all-images", (req, res) => {
 
 //ROUTER TO GET SINGLE Image
 app.get("/single-image/:id", (req, res) => {
-    return db
-        .getSingleImage(req.params.id).then((results)=>{
-            res.json({
-                image: results.rows[0]
-            });
-        })
+    return db.getSingleImage(req.params.id).then(results => {
+        res.json({
+            image: results.rows[0]
+        });
+    });
 });
 
-//ROUTER TO POST COMMENTS
-
 //ROUTER GET COMMENTS
+/*app.get('/single-image/:id', (req, res, next) => {
+    console.log('req.params', req.params.id)
+    const imageId = req.params.id;
+    Promise.all([
+        db.getSingleImage(req.params.id),
+        db.getComments(req.params.id).then((results) => {
+            console.log('RESULTS OF GETCOMMENTS SERVER.JS', results);
+            return results;})
+    ]).then((results) => {
+        return res.json(results);
+        res.redirect('/#/');
+    }).catch((err) => { console.log('ERR WITH PROMISE.ALL', err); })
+});*/
 
-//SERVER
+//ROUTER TO POST COMMENTS
+app.post("/comment", function(req, res) {
+    addComment(req.body.comment, req.body.username, req.body.id)
+        .then(function() {
+            res.json({
+                success: true
+            });
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+});
 app.listen(8080, () => console.log(`I'm listening.`));
